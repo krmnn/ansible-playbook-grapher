@@ -204,7 +204,10 @@ class PostProcessor(object):
     def _insert_graph_representation(self, graph_representation):
         for node, node_links in graph_representation.graph_dict.items():
             # Find the group g with the specified id
-            element = self.root.xpath("ns:g/*[@id='%s']" % node, namespaces={'ns': SVG_NAMESPACE})[0]
+            try:
+                element = self.root.xpath("ns:g/*[@id='%s']" % node, namespaces={'ns': SVG_NAMESPACE})[0]
+            except IndexError:
+                return
 
             root_subelement = etree.Element('links')
 
