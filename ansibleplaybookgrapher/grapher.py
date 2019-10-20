@@ -140,8 +140,12 @@ class Grapher(object):
             with self.graph.subgraph(name=play_name) as play_subgraph:
                 color, play_font_color = get_play_colors(play)
                 # play node
+                play_hosts_string = ", ".join(play_hosts)
+                # there seems to be a limitation for tooltip (alt text) text in svg
+                if len(play_hosts_string) > 16384:
+                    play_hosts_string = play_hosts_string[0:16300] + "..."
                 play_subgraph.node(play_name, id=play_id, style="filled", shape="box", color=color,
-                                   fontcolor=play_font_color, tooltip="     ".join(play_hosts))
+                                   fontcolor=play_font_color, tooltip=play_hosts_string)
 
                 # edge from root node to plays
                 play_edge_id = "edge_" + str(uuid.uuid4())
